@@ -3,6 +3,10 @@ This demo provides configuration for several zero-trust
 services, configured to run on a single host for ease
 of demonstration.
 
+# TODO:
+- [ ] Consider using Pomerium as an ingress controller instead of the
+built-in minikube plugin (nginx)
+
 ## Components
 The following components are used to form a zero-trust network:
 
@@ -33,15 +37,23 @@ Running this demo requires:
 - A [minikube](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download)
 installation for running a kubernetes cluster locally.
 
-After installing minikube, start the cluster and enable the Istio addon:
+The following minikube addons are also required:
+- ingress
+- istio
+- istio-provisioner
+
+```bash
+# (On first setup) Enable addons
+minikube addons enable ingress
+minikube addons enable istio-provisioner
+minikube addons enable istio
+```
+
+After installing minikube and its addons, start the cluster:
 
 ```bash
 # Start the cluster
 minikube start --memory=8192 --cpus=4
-
-# (On first setup) Enable istio addons
-minikube addons enable istio-provisioner
-minikube addons enable istio
 ```
 
 To stop the cluster, use `minikube stop`.
@@ -75,11 +87,16 @@ minikube kubectl -- delete -f manifest
 ```
 
 ### Accessing Services
-For services with exposed ports, you can get a url to test access, for example:
+For services exposed via an ingress rule, you should be able to
+access them through the address reported by `minikube ip`.
 
-```bash
-minikube service simple-web --url
-```
+Currently configured services:
+- simple-web: `http://$(minikube ip)/`
+- keycloak: `http://$(minikube ip)/keycloak`
 
 ### Configuring Clients
 TODO: Notes on configuring clients (i.e. installing mTLS certificates to the host machine)
+
+# References
+Keycloak config: https://www.keycloak.org/getting-started/getting-started-kube
+OPA config: https://github.com/open-policy-agent/opa-envoy-plugin/tree/main
