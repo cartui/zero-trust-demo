@@ -187,18 +187,18 @@ spec:
       targetPort: 5432
   type: ClusterIP
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: keycloak
-spec:
-  rules:
-    - http:
-        paths:
-          - path: /keycloak
-            pathType: Prefix
-            backend:
-              service:
-                name: keycloak
-                port:
-                  number: 8080
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: keycloak
+# spec:
+#   rules:
+#     - http:
+#         paths:
+#           - path: /keycloak
+#             pathType: Prefix
+#             backend:
+#               service:
+#                 name: keycloak
+#                 port:
+#                   number: 8080
