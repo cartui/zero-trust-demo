@@ -22,6 +22,24 @@ TODO
 ### Envoy
 TODO
 
+### Applications
+Several simple user-facing services are included, including a static webserver
+and a web terminal client using [ttyd](https://github.com/tsl0922/ttyd). This is
+intended to demonstrate segmentation between services: The web terminal should
+not be able to access other pods on the cluster network.
+
+You can test this by navigating to the terminal (see `show_addrs.sh`) and
+accessing another service like `simple-web`:
+
+```bash
+# On your host terminal, get the cluster-ip for the desired service:
+kubectl get svc simple-web -o jsonpath='{.spec.clusterIP}'
+
+# You can attempt to access this address from the web terminal,
+# it should fail.
+wget <cluster ip>
+```
+
 ## Usage
 
 ### Setup
@@ -82,16 +100,21 @@ minikube image build -t simple-website:latest images/simple-website
 > installing `kubectl`. Running it in this way
 > requires you pass all `kubectl` arguments after `--`.
 >
-> It's recommended to create an alias for kubectl: `alias kubectl='minikube kubectl --'`
+> You can create an alias for kubectl in your `.bashrc`: `alias kubectl='minikube kubectl --'`
 
-Deploy all services with:
+Apply all configuration with:
 ```bash
 minikube kubectl -- apply -f manifest
 ```
 
-And stop them with
+You can try to delete configuration if updating with apply doesn't work, though
+restarting the cluster might give you better results:
 ```bash
+# Remove configuration
 minikube kubectl -- delete -f manifest
+
+# Or restart the cluster
+minikube stop && minikube start
 ```
 
 ### Accessing Services
