@@ -11,28 +11,3 @@ spec:
     allowedRoutes:
       namespaces:
         from: Same
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: web-route
-spec:
-  parentRefs:
-  - name: web-gateway
-  # hostnames: ["example.com"]
-  rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /
-    backendRefs:
-    - name: simple-web
-      port: 80
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /keycloak
-    backendRefs:
-    - name: keycloak
-      port: 8080
-
