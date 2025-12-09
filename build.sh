@@ -14,8 +14,4 @@ if [ $? -ne 0 ]; then
 fi
 
 minikube image build -t simple-website:latest images/simple-website
-
-if [[ -z "$(ls -A images/docker-ttyd)" ]]; then
-  git submodule update --init
-fi
 minikube image build -t ttyd:latest images/docker-ttyd
