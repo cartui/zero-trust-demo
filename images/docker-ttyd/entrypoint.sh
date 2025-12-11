@@ -2,7 +2,11 @@
 set -e
 #set -x
 
-TTYD_ARGS="--writable login"
+if [ -z "$BASE_PATH" ]; then
+    BASE_PATH="/"
+fi
+
+TTYD_ARGS="--writable --base-path $BASE_PATH login"
 
 # Check if this is the container's first run
 if [ -f /etc/.firstrun ]; then

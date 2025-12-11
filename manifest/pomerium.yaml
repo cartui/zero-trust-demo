@@ -1,0 +1,79 @@
+apiVersion: ingress.pomerium.io/v1
+kind: Pomerium
+metadata:
+  name: global
+spec:
+  secrets: pomerium/bootstrap
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.pomerium.io/allow_websockets: 'true'
+    ingress.pomerium.io/preserve_host_header: 'true'
+    ingress.pomerium.io/pass_identity_headers: 'true'
+    ingress.pomerium.io/subtle_allow_empty_host: 'true'
+    # TODO: Fill this out with actual demo policies
+    ingress.pomerium.io/policy: |
+      allow:
+        and:
+        - accept: true
+  name: web-ingress
+spec:
+  ingressClassName: pomerium
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: simple-web
+                port:
+                  name: http
+          - path: /term
+            pathType: Prefix
+            backend:
+              service:
+                name: web-terminal
+                port:
+                  name: http
+          - path: /keycloak
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak
+                port:
+                  name: http
+# ---
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: Gateway
+# metadata:
+#   name: web-gateway
+# spec:
+#   gatewayClassName: pomerium-gateway
+#   listeners:
+#     # - name: https
+#     #   # hostname: '*.example.local'
+#     #   protocol: HTTPS
+#     #   port: 443
+#     #   tls:
+#     #     mode: Terminate
+#     #     certificateRefs:
+#     #       - name: pomerium-wildcard-tls
+#     - name: http
+#       protocol: HTTP
+#       port: 80
+#       allowedRoutes:
+#         namespaces:
+#           from: All
+# ---
+# apiVersion: gateway.pomerium.io/v1alpha1
+# kind: PolicyFilter
+# metadata:
+#   name: allow-all-test
+# spec:
+#   ppl: |
+#     allow:
+#       and:
+#         - accept: true

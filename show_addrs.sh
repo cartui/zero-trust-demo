@@ -1,8 +1,9 @@
 #!/usr/bin/bash
 kubectl='minikube kubectl --'
 
-INGRESS_HOST=$($kubectl get gtw web-gateway -o jsonpath='{.status.addresses[0].value}')
-# INGRESS_PORT=$($kubectl get gtw web-gateway -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
+# GATEWAY_HOST=$($kubectl get gtw web-gateway -o jsonpath='{.status.addresses[0].value}')
+# GATEWAY_PORT=$($kubectl get gtw web-gateway -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
+INGRESS_HOST=$($kubectl get ingress web-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
 if [[ -z "$INGRESS_HOST" ]]; then
   echo "No address for web-gateway. Is 'minikube tunnel' running?"

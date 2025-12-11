@@ -30,19 +30,26 @@ spec:
         imagePullPolicy: Never # Local image only
         ports:
           - containerPort: 80
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: simple-web-route
-spec:
-  parentRefs:
-  - name: web-gateway
-  rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /
-    backendRefs:
-    - name: simple-web
-      port: 80
+# ---
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: HTTPRoute
+# metadata:
+#   name: simple-web-route
+# spec:
+#   parentRefs:
+#   - name: web-gateway
+#   rules:
+#   - matches:
+#     - path:
+#         type: PathPrefix
+#         value: /
+#     backendRefs:
+#       - name: simple-web
+#         port: 80
+#     filters:
+#       # Pomerium policy to use
+#       - type: ExtensionRef
+#         extensionRef:
+#             group: gateway.pomerium.io
+#             kind: PolicyFilter
+#             name: allow-all-test

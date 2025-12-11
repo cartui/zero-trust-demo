@@ -19,7 +19,7 @@ TODO
 ### Istio
 TODO
 
-### Envoy
+### Pomerium
 TODO
 
 ### Applications

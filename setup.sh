@@ -7,8 +7,12 @@ kubectl="minikube kubectl --"
 
 $kubectl label namespace default opa-istio-injection="enabled"
 $kubectl label namespace default istio-injection="enabled"
-
-$kubectl apply --server-side -f server-manifest/gateway-crd.yaml
+$kubectl label namespace pomerium istio-injection="enabled"
 
 echo -e "\nSetup done. Now building images"
 ./build.sh
+
+echo -e "\n Applying configuration"
+$kubectl delete -f manifest
+$kubectl apply -f manifest
+
