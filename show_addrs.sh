@@ -12,5 +12,6 @@ else
   echo ""
   echo "Terminal App: http://$INGRESS_HOST/term"
   echo "Keycloak admin panel: http://$INGRESS_HOST/keycloak"
+  echo "Bookinfo demo: http://$INGRESS_HOST/productpage"
 fi
 

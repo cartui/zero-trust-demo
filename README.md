@@ -40,6 +40,10 @@ kubectl get svc simple-web -o jsonpath='{.spec.clusterIP}'
 wget <cluster ip>
 ```
 
+The bookinfo demo provided by Istio uses several backend services which all
+must interact with each other, demonstrating how policies can be used
+to granularly customize access control between services.
+
 ## Usage
 
 ### Setup

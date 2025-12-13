@@ -45,6 +45,43 @@ spec:
                 name: keycloak
                 port:
                   name: http
+
+          - path: /productpage
+            pathType: Prefix
+            backend:
+              service:
+                name: productpage
+                port:
+                  name: http
+          - path: /static
+            pathType: Prefix
+            backend:
+              service:
+                name: productpage
+                port:
+                  name: http
+          - path: /login
+            pathType: Prefix
+            backend:
+              service:
+                name: productpage
+                port:
+                  name: http
+          - path: /logout
+            pathType: Prefix
+            backend:
+              service:
+                name: productpage
+                port:
+                  name: http
+          - path: /api/v1/products
+            pathType: Prefix
+            backend:
+              service:
+                name: productpage
+                port:
+                  name: http
+            
 # ---
 # apiVersion: gateway.networking.k8s.io/v1
 # kind: Gateway
